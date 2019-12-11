@@ -1,14 +1,7 @@
 # MULTITHREADING
-Разработать многопоточное приложение, использующее разделяемые
-ресурсы. Любая сущность, желающая получить доступ к разделяемому
-ресурсу, должна быть потоком. В приложении должна быть реализована
-функциональность, определенная индивидуальным заданием.
-## Порт
-Корабли заходят в порт для разгрузки и/или загрузки контейнеров и швартуются к
-причалам. У каждого причала может стоять только один корабль. Контейнеры
-перегружаются с корабля на склад порта и\или со склада на корабль. Число контейнеров
-не может превышать емкость склада или корабля. Каждый корабль обязательно должен
-быть обслужен.
+To develop a multithreading application that uses shareable resources. Any entity willing to access shareable resource must be a stream. The application must implement functionality defined by the individual task.
+## PORT
+Ships enter port for offloading and/or loading containers and are moored to the dockings. Each docking can have only one ship moored. Containers are offloaded from the ship to the port warehouse and/or from the warehouse to the ship. Number of containers cannot exceed the capacity of a warehouse or ship. Each ship must be handled.
 ### Требования
 + Программа должна использовать возможности синхронизации, поставляемые
 библиотеками java.util.concurrent и java.util.concurrent.locks.

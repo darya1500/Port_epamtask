@@ -1,0 +1,77 @@
+package by.epam.learn.daryatarasevich.port.entity;
+
+import by.epam.learn.daryatarasevich.port.action.Action;
+import by.epam.learn.daryatarasevich.port.state.State;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Semaphore;
+
+public class Ship implements Callable<String > {
+    public int numberOfContainersOnShip;
+    private String nameOfShip;
+    private int shipCapacity;
+    private Semaphore semaphore;
+    private State state;
+
+    public Ship(String nameOfShip, int shipCapacity, int numberOfContainersOnShip) {
+        this.nameOfShip = nameOfShip;
+        this.shipCapacity=shipCapacity;
+        this.numberOfContainersOnShip=numberOfContainersOnShip;
+    }
+
+    public int getShipCapacity() {
+        return shipCapacity;
+    }
+
+    public String getNameOfShip() {
+        return nameOfShip;
+    }
+
+    public int getNumberOfContainersOnShip() {
+        return numberOfContainersOnShip;
+    }
+
+    public void setNumberOfContainersOnShip(int numberOfContainersOnShip) {
+        this.numberOfContainersOnShip = numberOfContainersOnShip;
+    }
+
+    public void setSemaphore(Semaphore semaphore) {
+        this.semaphore = semaphore;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+    /**
+     *
+     * @throws InterruptedException
+     * @return message
+     */
+    @Override
+    public String call() throws InterruptedException {
+        semaphore.acquire();
+        Action action=new Action();
+        action.handle(this);
+        semaphore.release();
+        String message="Ship "+this.getNameOfShip()+ " has successfully completed it job";
+        return message;
+    }
+    /**
+     * To handle ship according to state.
+     *
+     * @throws InterruptedException
+     */
+    public void handle() throws InterruptedException {
+        state.handle(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "nameOfShip='" + nameOfShip + ", shipCapacity" +shipCapacity+", number of containers "+numberOfContainersOnShip+
+                '}';
+    }
+}

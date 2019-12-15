@@ -1,0 +1,31 @@
+package by.epam.learn.daryatarasevich.port.main;
+
+import by.epam.learn.daryatarasevich.port.converter.DataConverter;
+import by.epam.learn.daryatarasevich.port.entity.*;
+import by.epam.learn.daryatarasevich.port.exception.DataCanNotBeValidatedException;
+import by.epam.learn.daryatarasevich.port.exception.IncorrectFilePathException;
+import by.epam.learn.daryatarasevich.port.reader.DataReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.Semaphore;
+
+public class Main {
+
+    public static void main(String[] args) throws  IOException, IncorrectFilePathException, DataCanNotBeValidatedException {
+        DataReader dataReader=new DataReader();
+        DataConverter dataConverter=new DataConverter();
+        List<Ship> listOfShips=dataConverter.convert(dataReader.readFromTextFile("testData\\datafortest.txt"));
+
+        Port port=Port.getInstance();
+        port.setCurrentNumberOfContainersInPort(3000);
+        Semaphore semaphore=new Semaphore(port.getNumberOfDockings());
+
+        for (Ship ship:listOfShips){
+            ship.setSemaphore(semaphore);
+            FutureTask<String > futureTask = new FutureTask<>(ship);
+            Thread thread=new Thread(futureTask);
+            thread.start();
+        }
+    }
+}

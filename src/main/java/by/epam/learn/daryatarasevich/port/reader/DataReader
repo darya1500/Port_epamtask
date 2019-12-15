@@ -1,0 +1,41 @@
+package by.epam.learn.daryatarasevich.port.reader;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.exception.IncorrectFilePathException;
+import by.epam.learn.daryatarasevich.port.validator.FileValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class DataReader {
+    private static final Logger LOGGER = LogManager.getLogger(DataReader.class);
+
+    public DataReader() {
+    }
+    /**
+     * Read data from text file to List of Strings.
+     *
+     * @param filePath
+     * @return list
+     */
+    public List<String> readFromTextFile(String filePath) throws IOException, IncorrectFilePathException {
+        if (filePath == null) {
+            LOGGER.error(MessageConstants.FILEPATH_IS_NULL);
+            throw new NullPointerException(MessageConstants.FILEPATH_IS_NULL);
+        }
+        FileValidator fileValidator = new FileValidator();
+        if (!fileValidator.doesFileExist(filePath)) {
+            LOGGER.error(MessageConstants.FILE_NAME_IS_INCORRECT);
+            throw new IncorrectFilePathException(MessageConstants.FILE_NAME_IS_INCORRECT);
+        }
+        Stream<String> stream = Files.lines(Paths.get(filePath));
+        List<String> list = stream.collect(Collectors.toList());
+        return list;
+
+    }
+}

@@ -1,0 +1,57 @@
+package by.epam.learn.daryatarasevich.port.action;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import by.epam.learn.daryatarasevich.port.state.LoadingState;
+import by.epam.learn.daryatarasevich.port.state.OffloadingState;
+import by.epam.learn.daryatarasevich.port.state.SailingState;
+import by.epam.learn.daryatarasevich.port.state.WaitingState;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.concurrent.TimeUnit;
+
+public class Action {
+    private static final Logger LOGGER = LogManager.getLogger(Action.class);
+    private static final int CONSTANT=1000;
+
+    public Action() {
+    }
+    /**
+     * To load containers on the ship.
+     *
+     * @param ship -ship to load containers on
+     * @throws InterruptedException
+     */
+    public void loadTheContainers(Ship ship) throws InterruptedException {
+        ship.setState(new LoadingState());
+        TimeUnit.MILLISECONDS.sleep(CONSTANT);
+        ship.handle();
+        LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_HAS_BEEN_LOADED);
+    }
+    /**
+     * To offload containers from the ship to the dockings.
+     *
+     * @param ship -ship to offload containers from
+     * @throws InterruptedException
+     */
+    public void offloadTheContainers(Ship ship) throws InterruptedException {
+        ship.setState(new OffloadingState());
+        TimeUnit.MILLISECONDS.sleep(CONSTANT);
+        ship.handle();
+        LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_HAS_BEEN_OFFLOADED);
+    }
+    /**
+     * To handle ship that comes to dockings: to wait, to offload containers, to load containers, to sail away.
+     *
+     * @param ship -ship to handle
+     * @throws InterruptedException
+     */
+    public void handle(Ship ship) throws InterruptedException {
+        ship.setState(new WaitingState());
+        ship.handle();
+        offloadTheContainers(ship);
+        loadTheContainers(ship);
+        ship.setState(new SailingState());
+        ship.handle();
+    }
+}

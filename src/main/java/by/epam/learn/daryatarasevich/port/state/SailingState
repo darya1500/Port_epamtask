@@ -1,0 +1,20 @@
+package by.epam.learn.daryatarasevich.port.state;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class SailingState implements State {
+    private static final Logger LOGGER = LogManager.getLogger(SailingState.class);
+    /**
+     * To handle ship sailing away from dockings.
+     *
+     * @param ship -ship to handle
+     */
+    @Override
+    public void handle(Ship ship) {
+        System.out.println("Ship "+ship.getNameOfShip()+" is sailing away");
+        LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_IS_SAILING);
+    }
+}

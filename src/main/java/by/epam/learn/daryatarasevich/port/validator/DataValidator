@@ -1,0 +1,53 @@
+package by.epam.learn.daryatarasevich.port.validator;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.List;
+
+public class DataValidator {
+    private static final Logger LOGGER = LogManager.getLogger(DataValidator.class);
+
+    public DataValidator() {
+    }
+    /**
+     * Validate data in reader output.
+     *
+     * @param list
+     * @return true(if length of data and symbols are correct)
+     */
+    public boolean isDataCorrect(List<String> list) {
+        if (list==null) {
+            LOGGER.error(MessageConstants.LIST_IS_NULL);
+            throw new NullPointerException(MessageConstants.LIST_IS_NULL);
+        }
+        for (String string : list) {
+            String[] array = string.trim().split(" ");
+            if (array.length!=3) {
+                LOGGER.info(MessageConstants.INVALID_NUMBER_OF_PARAMETERS);
+                return false;
+            }
+            if (array[1].matches("\\D")) {
+                LOGGER.info(MessageConstants.INVALID_SHIP_CAPACITY);
+                return false;
+            }
+            if (array[2].matches("\\D")) {
+                LOGGER.info(MessageConstants.INVALID_NUMBER_OF_CONTAINERS_ON_SHIP);
+                return false;
+            }
+            if(Integer.parseInt(array[1])<=0){
+                LOGGER.info(MessageConstants.INVALID_SHIP_CAPACITY);
+                return false;
+            }
+            if (Integer.parseInt(array[2])<0){
+                LOGGER.info(MessageConstants.INVALID_NUMBER_OF_CONTAINERS_ON_SHIP);
+                return false;
+            }
+            if (Integer.parseInt(array[1])<Integer.parseInt(array[2])){
+                LOGGER.info(MessageConstants.INVALID_DATA);
+                return false;
+            }
+        }
+        return true;
+    }
+}

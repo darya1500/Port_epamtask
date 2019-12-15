@@ -1,0 +1,36 @@
+package by.epam.learn.daryatarasevich.port.entity;
+
+import by.epam.learn.daryatarasevich.port.state.OffloadingState;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.util.concurrent.Semaphore;
+import static org.testng.Assert.*;
+
+public class ShipTest {
+   private Ship ship;
+    private Semaphore semaphore;
+    private Port port;
+
+    @BeforeMethod
+    public void setUp() {
+        ship=new Ship("Carl",200,100);
+        port=Port.getInstance();
+        port.setCurrentNumberOfContainersInPort(3000);
+        semaphore=new Semaphore(port.getNumberOfDockings());
+    }
+
+    @Test
+    public void testCall_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+        String expectedMessage="Ship Carl has successfully completed it job";
+        ship.setSemaphore(semaphore);
+        assertEquals(ship.call(),expectedMessage);
+    }
+
+    @Test
+    public void testHandle_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+        ship.setState(new OffloadingState());
+        int expected=3100;
+        ship.handle();
+        assertEquals(port.getCurrentNumberOfContainersInPort(),expected);
+    }
+}

@@ -1,0 +1,49 @@
+package by.epam.learn.daryatarasevich.port.state;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.entity.Port;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LoadingState implements State {
+    private Port port = Port.getInstance();
+    private Lock lock = new ReentrantLock();
+    private Condition condition=lock.newCondition();
+    private static final Logger LOGGER = LogManager.getLogger(LoadingState.class);
+    /**
+     * To handle ship loading containers from dockings.
+     * If port does not contain enough containers to load on the ship, ship will await for other ships to offload enough containers.
+     * If the ship waits more than 10 seconds and no containers are offloaded,then ship sails away empty.
+     *
+     * @param ship -ship to handle
+     * @throws InterruptedException
+     */
+    @Override
+    public void handle(Ship ship) throws InterruptedException {
+        if ((port.getCurrentNumberOfContainersInPort() < (ship.getShipCapacity() - ship.getNumberOfContainersOnShip()))) {
+            lock.lock();
+            condition.await(10000, TimeUnit.MILLISECONDS);
+            LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_IS_WAITING);
+            lock.unlock();
+            }
+       if (port.getCurrentNumberOfContainersInPort()>0) {
+           int numberOfContainersPossibleToLoad =ship.getShipCapacity() - ship.getNumberOfContainersOnShip();
+           int numberToCheck= port.getCurrentNumberOfContainersInPort() - numberOfContainersPossibleToLoad;
+           if (numberToCheck > 0) {
+               System.out.println("Ship " + ship.getNameOfShip() + " is loading " + numberOfContainersPossibleToLoad + " containers.");
+               ship.setNumberOfContainersOnShip(ship.getNumberOfContainersOnShip() + numberOfContainersPossibleToLoad);
+               port.setCurrentNumberOfContainersInPort(port.getCurrentNumberOfContainersInPort() - numberOfContainersPossibleToLoad);
+               System.out.println("Port now contains " + port.getCurrentNumberOfContainersInPort() + " containers");
+               LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_HAS_BEEN_LOADED);
+           }else {
+               System.out.println("Port does not have enough containers");
+               LOGGER.info(MessageConstants.PORT_NOT_HAVE_ENOUGH_CONTAINERS);
+           }
+       }
+}
+}

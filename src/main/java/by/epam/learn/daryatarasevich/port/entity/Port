@@ -1,0 +1,33 @@
+package by.epam.learn.daryatarasevich.port.entity;
+
+public class Port<T> {
+    private final static int NUMBER_OF_DOCKINGS =5;
+    private final static int CAPACITY_OF_PORT=9000;
+    private static final Port INSTANCE=new Port();
+    private int currentNumberOfContainersInPort;
+    private final static String HELLO="Port is open";
+
+    private Port() {
+        System.out.println(HELLO);
+    }
+
+    public static Port getInstance(){
+        return INSTANCE;
+    }
+
+    public int getCurrentNumberOfContainersInPort() {
+        return currentNumberOfContainersInPort;
+    }
+
+    public void setCurrentNumberOfContainersInPort(int currentNumberOfContainersInPort) {
+        this.currentNumberOfContainersInPort = currentNumberOfContainersInPort;
+    }
+
+    public int getCapacityOfPort() {
+        return CAPACITY_OF_PORT;
+    }
+
+    public int getNumberOfDockings() {
+        return NUMBER_OF_DOCKINGS;
+    }
+}

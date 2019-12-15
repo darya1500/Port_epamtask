@@ -1,0 +1,41 @@
+package by.epam.learn.daryatarasevich.port.state;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.entity.Port;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class OffloadingState implements State {
+     private Port port= Port.getInstance();
+     private Lock lock=new ReentrantLock();
+     private Condition condition=lock.newCondition();
+    private static final Logger LOGGER = LogManager.getLogger(OffloadingState.class);
+    /**
+     * To handle ship offloading containers to dockings.
+     * After offloading containers signal is sent to other ships.
+     * If capacity of port was outnumbered by containers, informs about it.
+     *
+     * @param ship -ship to handle
+     * @throws InterruptedException
+     */
+    @Override
+    public void handle(Ship ship) {
+        lock.lock();
+        int numberToOffload = ship.numberOfContainersOnShip;
+        port.setCurrentNumberOfContainersInPort(port.getCurrentNumberOfContainersInPort() + numberToOffload);
+        System.out.println("Ship " + ship.getNameOfShip() + " is offloading " + numberToOffload + " containers.");
+        ship.setNumberOfContainersOnShip(0);
+        condition.signal();
+        System.out.println("Port now contains " + port.getCurrentNumberOfContainersInPort() + " containers");
+        LOGGER.info(ship.getNameOfShip()+MessageConstants.SHIP_HAS_BEEN_OFFLOADED);
+        if (port.getCapacityOfPort()<port.getCurrentNumberOfContainersInPort()){
+            System.out.println("Port contains too many containers");
+            LOGGER.info(MessageConstants.PORT_CONTAINS_TOO_MANY_CONTAINERS);
+        }
+        lock.unlock();
+    }
+}

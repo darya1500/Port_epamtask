@@ -1,0 +1,38 @@
+package by.epam.learn.daryatarasevich.port.converter;
+
+import by.epam.learn.daryatarasevich.port.constant.MessageConstants;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import by.epam.learn.daryatarasevich.port.exception.DataCanNotBeValidatedException;
+import by.epam.learn.daryatarasevich.port.validator.DataValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.LinkedList;
+import java.util.List;
+
+public class DataConverter {
+    private static final Logger LOGGER = LogManager.getLogger(DataConverter.class);
+
+    public DataConverter() {
+    }
+    /**
+     * Convert data from List of Strings to List of Ship.
+     *
+     * @param list
+     * @return shipList
+     */
+    public LinkedList<Ship> convert(List<String> list) throws DataCanNotBeValidatedException {
+        DataValidator dataValidator=new DataValidator();
+        LinkedList<Ship> shipList=new LinkedList<>();
+        if (dataValidator.isDataCorrect(list)){
+            for (String string : list) {
+                String[] array = string.trim().split(" ");
+                Ship ship=new Ship(array[0],Integer.parseInt(array[1]),Integer.parseInt(array[2]));
+                shipList.add(ship);
+            }
+        }else{
+            LOGGER.error(MessageConstants.DATA_CAN_NOT_BE_VALIDATED);
+            throw new DataCanNotBeValidatedException(MessageConstants.DATA_CAN_NOT_BE_VALIDATED);
+        }
+        return shipList;
+    }
+}

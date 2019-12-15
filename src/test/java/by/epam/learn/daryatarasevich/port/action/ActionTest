@@ -1,0 +1,48 @@
+package by.epam.learn.daryatarasevich.port.action;
+
+import by.epam.learn.daryatarasevich.port.entity.Port;
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
+
+public class ActionTest {
+private Action action;
+private Ship ship;
+private Port port;
+   private int expected;
+   private int actual;
+
+    @BeforeMethod
+    public void setUp() {
+        action=new Action();
+        ship=new Ship("Carl",200,100);
+        port=Port.getInstance();
+        port.setCurrentNumberOfContainersInPort(3000);
+    }
+
+    @Test
+    public void testLoadTheContainers_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+        expected=2900;
+        action.loadTheContainers(ship);
+        actual=port.getCurrentNumberOfContainersInPort();
+       assertEquals(actual,expected);
+    }
+
+    @Test
+    public void testOffloadTheContainers_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+        expected=3100;
+        action.offloadTheContainers(ship);
+        actual=port.getCurrentNumberOfContainersInPort();
+        assertEquals(actual,expected);
+    }
+
+    @Test
+    public void testHandle_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+       expected=2900;
+        action.handle(ship);
+        actual=port.getCurrentNumberOfContainersInPort();
+        assertEquals(actual,expected);
+    }
+}

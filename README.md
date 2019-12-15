@@ -1,7 +1,7 @@
 # MULTITHREADING
 To develop a multithreading application that uses shareable resources. Any entity willing to access shareable resource must be a stream. The application must implement functionality defined by the individual task.
 ## PORT
-[Ships](https://github.com/darya1500/epam_task/blob/master/src/main/java/by/epam/learn/daryatarasevich/port/entity/Ship) enter [port](https://github.com/darya1500/epam_task/blob/master/src/main/java/by/epam/learn/daryatarasevich/port/entity/Port) for offloading and/or loading containers and are moored to the dockings. Each docking can have only one ship moored. Containers are offloaded from the ship to the port warehouse and/or from the warehouse to the ship. Number of containers cannot exceed the capacity of a warehouse or ship. Each ship must be handled.
+[Ships](https://github.com/darya1500/epam_task/blob/master/src/main/java/by/epam/learn/daryatarasevich/port/entity/Ship) enter [port](https://github.com/darya1500/epam_task/blob/master/src/main/java/by/epam/learn/daryatarasevich/port/entity/Port) for [offloading and/or loading](https://github.com/darya1500/epam_task/blob/master/src/main/java/by/epam/learn/daryatarasevich/port/action/Action) containers and are moored to the dockings. Each docking can have only one ship moored. Containers are offloaded from the ship to the port warehouse and/or from the warehouse to the ship. Number of containers cannot exceed the capacity of a warehouse or ship. Each ship must be handled.
 ### Requirements
 + Program should use synchronization capabilities provided by the java.util.concurrent and java.util.concurrent.locks libraries.
 + Do not use synchronized, volatile, BlockingQueue and other partially threadsafe collections.

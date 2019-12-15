@@ -1,0 +1,7 @@
+package by.epam.learn.daryatarasevich.port.state;
+
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+
+public interface State {
+    void handle(Ship ship) throws InterruptedException;
+}

@@ -1,0 +1,25 @@
+package by.epam.learn.daryatarasevich.port.validator;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+import static org.testng.Assert.*;
+
+public class DataValidatorTest {
+    private DataValidator dataValidator;
+    private List<String> list;
+
+    @BeforeMethod
+    public void setUp() {
+        list=new ArrayList<>();
+        dataValidator=new DataValidator();
+        list.add("Star 200 150");
+        list.add("Lola 250 10");
+    }
+
+    @Test
+    public void testIsDataCorrect_WhenDataIsCorrect_ShouldReturnCorrectResult() {
+        assertTrue(dataValidator.isDataCorrect(list));
+    }
+}

@@ -1,0 +1,24 @@
+package by.epam.learn.daryatarasevich.port.state;
+
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+public class WaitingStateTest {
+    private Ship ship;
+    private State state;
+
+    @BeforeMethod
+    public void setUp() {
+        ship=new Ship("Carl",200,100);
+        state=new WaitingState();
+    }
+
+    @Test
+    public void testHandle_WhenDataIsCorrect_ShouldReturnCorrectResult() throws InterruptedException {
+        ship.setState(new WaitingState());
+        ship.handle();
+        assertEquals(ship.getState().getClass(),state.getClass());
+    }
+}

@@ -1,0 +1,11 @@
+Star 200 150
+Lola 250 10
+Melody 500 20
+Anna 1000 800
+Olga 140 80
+Lucy 200 150
+Alla 500 350
+Sofia 500 400
+Suzanna 100 100
+Liza 140 90
+Maria 140 80

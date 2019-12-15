@@ -4,7 +4,6 @@ import by.epam.learn.daryatarasevich.port.entity.Port;
 import by.epam.learn.daryatarasevich.port.entity.Ship;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import static org.testng.Assert.*;
 
 public class ActionTest {

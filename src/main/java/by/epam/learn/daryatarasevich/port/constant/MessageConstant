@@ -1,0 +1,18 @@
+package by.epam.learn.daryatarasevich.port.constant;
+
+public class MessageConstants {
+    public static final String FILEPATH_IS_NULL ="File path is null" ;
+    public static final String  FILE_NAME_IS_INCORRECT ="File name is incorrect" ;
+    public static final String DATA_CAN_NOT_BE_VALIDATED ="Data can not be validated" ;
+    public static final String LIST_IS_NULL ="List is null" ;
+    public static final String INVALID_NUMBER_OF_PARAMETERS = "Invalid number of parameters";
+    public static final String INVALID_SHIP_CAPACITY = "Invalid ship capacity";
+    public static final String INVALID_NUMBER_OF_CONTAINERS_ON_SHIP ="Invalid number of containers on ship" ;
+    public static final String INVALID_DATA = "Invalid data";
+    public static final String SHIP_HAS_BEEN_LOADED =" ship has been loaded" ;
+    public static final String SHIP_HAS_BEEN_OFFLOADED =" ship has been offloaded"  ;
+    public static final String SHIP_IS_WAITING = " ship is waiting";
+    public static final String PORT_NOT_HAVE_ENOUGH_CONTAINERS = "Port does not have enough containers";
+    public static final String PORT_CONTAINS_TOO_MANY_CONTAINERS ="Port contains too many containers" ;
+    public static final String SHIP_IS_SAILING = "Ship is sailing away";
+}

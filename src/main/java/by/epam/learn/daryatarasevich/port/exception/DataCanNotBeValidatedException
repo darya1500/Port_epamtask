@@ -1,0 +1,8 @@
+package by.epam.learn.daryatarasevich.port.exception;
+
+public class DataCanNotBeValidatedException extends Exception{
+
+    public DataCanNotBeValidatedException(String message) {
+        super(message);
+    }
+}

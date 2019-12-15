@@ -1,0 +1,38 @@
+package by.epam.learn.daryatarasevich.port.converter;
+
+import by.epam.learn.daryatarasevich.port.entity.Ship;
+import by.epam.learn.daryatarasevich.port.exception.DataCanNotBeValidatedException;
+import by.epam.learn.daryatarasevich.port.validator.DataValidator;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.testng.Assert.*;
+
+public class DataConverterTest {
+   private LinkedList<Ship> shipList;
+   private DataConverter dataConverter;
+    private List<String> list;
+
+
+    @BeforeMethod
+    public void setUp() {
+        shipList=new LinkedList<>() ;
+        dataConverter=new DataConverter();
+        list=new LinkedList<>();
+        list.add("Star 200 150");
+        list.add("Lola 250 10");
+        shipList=new LinkedList<>();
+        shipList.add(new Ship("Star",200,150));
+        shipList.add(new Ship("Lola",250,10));
+    }
+
+    @Test
+    public void testConvert_WhenDataIsCorrect_ShouldReturnCorrectResult() throws DataCanNotBeValidatedException {
+        for (int i=0;i<shipList.size();i++) {
+            assertEquals(dataConverter.convert(list).get(i).toString(), shipList.get(i).toString());
+        }
+    }
+}
